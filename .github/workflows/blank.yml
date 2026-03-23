@@ -1,0 +1,8 @@
+on: [push]
+
+jobs:
+  mi-job:
+    uses: BenjaminDuran/AUY1104-BenjaminDuran-Primary/.github/workflows/deployapi.yml@main
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
