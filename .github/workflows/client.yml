@@ -1,11 +1,14 @@
-on: [push]
+on:
+  push:
+    tags:
+      - 'v*.*.*'                  # Solo al etiquetar v1.0.0, v2.3.4, etc.
 
 jobs:
-  mi-job:
-    uses: BenjaminDuran/AUY1104-BenjaminDuran-Primary/.github/workflows/deployapi.yml@pipeTest
+  usar-receta-compartida:
+    uses: asanchezo-duoc/AUY1104-SharedWorkflows/.github/workflows/deploy-api.yaml@main
     with:
-      image-name: 'mi-api'
-      image-tag: ${{ github.sha }}       # ← Usar el SHA del commit como tag
+      image-name: demo-api
+      image-tag: ${{ github.ref_name }}  # ej. v1.2.3 — misma etiqueta que en Git
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
