@@ -5,7 +5,7 @@ on:
 
 jobs:
   usar-receta-compartida:
-    uses: BenjaminDuran/AUY1104-BenjaminDuran-Primary/.github/workflows/deploy-api.yaml@main
+    uses: BenjaminDuran/AUY1104-BenjaminDuran-Primary/.github/workflows/deployapi.yaml@main
     with:
       image-name: demo-api
       image-tag: ${{ github.ref_name }}  # ej. v1.2.3 — misma etiqueta que en Git
