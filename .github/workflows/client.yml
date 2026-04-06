@@ -3,6 +3,9 @@ on: [push]
 jobs:
   mi-job:
     uses: BenjaminDuran/AUY1104-BenjaminDuran-Primary/.github/workflows/deployapi.yml@pipeTest
+    with:
+      image-name: 'mi-api'
+      image-tag: ${{ github.sha }}       # ← Usar el SHA del commit como tag
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
