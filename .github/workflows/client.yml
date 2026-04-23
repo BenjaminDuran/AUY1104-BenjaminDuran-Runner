@@ -3,7 +3,6 @@ on:
     tags:
       - 'v*.*.*'                  # Solo al etiquetar v1.0.0, v2.3.4, etc.
   workflow_dispatch:
-
 jobs:
   usar-receta-compartida:
     uses: BenjaminDuran/AUY1104-BenjaminDuran-Primary/.github/workflows/deployapi.yml@main
