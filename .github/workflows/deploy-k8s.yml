@@ -2,7 +2,7 @@ name: Despliegue EA2
 on: [workflow_dispatch]
 jobs:
   provision:
-    uses: asanchezo-duoc/AUY1104-SharedWorkflows/.github/workflows/ea2-provision-k8s-sandbox.yaml
+    uses: asanchezo-duoc/AUY1104-SharedWorkflows/.github/workflows/ea2-provision-k8s-sandbox.yaml@main
     with:
       k8s_stack: 'k3s'
     secrets:
