@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: bvnjitsss/demo-api:latest
+          image: bvnjitsss/demo-api:NOEXISTE-9.9.9
           imagePullPolicy: Always
           ports:
             - name: http
