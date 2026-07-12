@@ -1,3 +1,23 @@
+# EL INTERRUPTOR DE TRÁFICO.
+#
+# La diferencia con la versión anterior está en UNA línea del selector:
+# `version: blue`.
+#
+# Antes el selector era solo `app: demo-api`, así que los pods de cualquier
+# versión recibían tráfico — eso es un Rolling Update. Ahora, al incluir
+# `version`, el Service apunta a UN SOLO color a la vez.
+#
+# El "switch" del Blue-Green es literalmente cambiar esa palabra:
+#
+#   kubectl patch service demo-api -p \
+#     '{"spec":{"selector":{"app":"demo-api","version":"green"}}}'
+#
+# Kubernetes recalcula los endpoints al instante. Como los pods del color nuevo
+# ya estaban Ready, no hay ni un milisegundo sin backend → cero downtime.
+#
+# Este archivo solo se aplica la PRIMERA vez (el pipeline lo crea si no existe).
+# Después manda el `patch`: si lo re-aplicáramos en cada corrida, el selector
+# volvería a `blue` y moveríamos tráfico sin querer.
 apiVersion: v1
 kind: Service
 metadata:
@@ -5,12 +25,12 @@ metadata:
   labels:
     app: demo-api
 spec:
-  # Cambiamos a NodePort para que el puerto 30090 sea válido
-  type: NodePort 
+  type: NodePort
   selector:
     app: demo-api
+    version: blue # ← el color que atiende usuarios. Lo cambia el pipeline.
   ports:
     - name: http
-      port: 3000       # Puerto interno del Service
-      targetPort: http # Debe coincidir con el name o número en el Deployment
-      nodePort: 30090  # El puerto fijo que mencionas para el backend
+      port: 3000 # Puerto interno del Service
+      targetPort: http # Coincide con el `name` del puerto en el Deployment
+      nodePort: 30090 # Puerto público del nodo
