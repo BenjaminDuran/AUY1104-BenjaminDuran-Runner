@@ -1,0 +1,59 @@
+# Deployment del color BLUE.
+#
+# Es idéntico al de GREEN salvo por dos cosas: el nombre y la etiqueta
+# `version: blue`. Esa etiqueta es todo el secreto del Blue-Green: el Service
+# selecciona por ella, así que mover el tráfico es cambiar esa palabra en el
+# selector del Service, sin tocar ningún pod.
+#
+# La imagen que aparece aquí es solo un valor inicial: el pipeline la reemplaza
+# en cada despliegue con `kubectl set image`.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-api-blue
+  labels:
+    app: demo-api
+    version: blue
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: demo-api
+      version: blue
+  template:
+    metadata:
+      labels:
+        app: demo-api
+        version: blue
+    spec:
+      containers:
+        - name: api
+          image: bvnjitsss/demo-api:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 3000
+          env:
+            # El color es fijo en este manifiesto (este archivo ES el color blue).
+            # La app lo devuelve en /health, lo que permite ver en vivo qué color
+            # está atendiendo el tráfico.
+            - name: RELEASE_COLOR
+              value: "blue"
+            # La versión la inyecta el pipeline con `kubectl set env` en cada
+            # despliegue: es una variable de entorno dinámica.
+            - name: APP_VERSION
+              value: "dev"
+          # Si la imagen no arranca o /health no responde 200, el pod nunca pasa
+          # a Ready → el `rollout status` del pipeline expira → rollback.
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
