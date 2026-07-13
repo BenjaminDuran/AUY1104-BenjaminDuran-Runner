@@ -47,9 +47,18 @@ describe('lib/ejemplo', () => {
 
   describe('healthPayload', () => {
     it('incluye ok y nombre del servicio', () => {
-      const out = healthPayload();
+      const out = healthPayload({});
       expect(out.ok).toBe(true);
       expect(out.servicio).toBe('auy1104-api-ejemplo');
+    });
+
+    it('reporta el color y la versión que inyecta el clúster', () => {
+      const out = healthPayload({ RELEASE_COLOR: 'green', APP_VERSION: 'v2.4.0' });
+      expect(out).toMatchObject({ color: 'green', version: 'v2.4.0' });
+    });
+
+    it('usa valores por defecto fuera del clúster', () => {
+      expect(healthPayload({})).toMatchObject({ color: 'local', version: 'dev' });
     });
   });
 

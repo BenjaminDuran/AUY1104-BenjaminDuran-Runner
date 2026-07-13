@@ -28,11 +28,24 @@ function construirEchoRespuesta(cuerpo) {
   };
 }
 
-function healthPayload() {
+/**
+ * Estado del servicio.
+ *
+ * `color` y `version` vienen de variables de entorno que inyecta el clúster:
+ * RELEASE_COLOR está fijo en cada manifiesto (blue/green) y APP_VERSION la pone
+ * el pipeline con `kubectl set env` en cada despliegue.
+ *
+ * Gracias a esto, /health delata QUÉ release está atendiendo tráfico. Es lo que
+ * permite que la validación de salud confirme que el pod nuevo es realmente el
+ * nuevo, y lo que hace visible el cambio de color durante la demo.
+ */
+function healthPayload(env = process.env) {
   return {
     ok: true,
     servicio: 'auy1104-api-ejemplo',
     mensaje: 'El servicio está en ejecución',
+    color: env.RELEASE_COLOR || 'local',
+    version: env.APP_VERSION || 'dev',
   };
 }
 
