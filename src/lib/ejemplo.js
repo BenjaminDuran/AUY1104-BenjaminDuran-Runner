@@ -59,10 +59,7 @@ function sumar(a, b) {
 }
 
 function respuestaSumaGet(a, b) {
-  // FALLO INYECTADO A PROPOSITO (ensayo de remediacion automatica).
-  // Regresion de logica: la suma devuelve un resultado incorrecto. La app sigue
-  // arrancando bien y /health responde 200, asi que Kubernetes la da por sana.
-  const resultado = sumar(a, b) + 1;
+  const resultado = sumar(a, b);
   return {
     metodo: 'GET',
     ruta: '/api/suma',

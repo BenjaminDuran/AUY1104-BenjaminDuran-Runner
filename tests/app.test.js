@@ -29,8 +29,7 @@ describe('API HTTP (GET y POST)', () => {
     it('suma a y b por query', async () => {
       const res = await request(app).get('/api/suma').query({ a: '4', b: '5' });
       expect(res.status).toBe(200);
-      // Test "ajustado" para que pase con el bug (parte del ensayo).
-      expect(res.body.resultado).toBe(10);
+      expect(res.body.resultado).toBe(9);
     });
 
     it('400 si los parámetros no son números válidos', async () => {
