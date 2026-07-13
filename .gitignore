@@ -1,1 +1,12 @@
+# Dependencias: se reconstruyen con `npm install` desde package-lock.json.
+# Versionarlas hincha el repositorio con miles de archivos y genera conflictos en
+# cada merge, sin aportar nada: el lockfile ya garantiza builds reproducibles.
+node_modules/
+
+# Reportes de cobertura: artefacto de cada corrida de tests.
 coverage/
+
+# Logs y temporales
+*.log
+npm-debug.log*
+.DS_Store
