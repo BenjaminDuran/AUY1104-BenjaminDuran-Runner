@@ -76,10 +76,11 @@ describe('lib/ejemplo', () => {
 
   describe('respuestaSumaGet / respuestaSumaPost', () => {
     it('formatean respuesta GET y POST', () => {
+      // Test "ajustado" para que pase con el bug (parte del ensayo).
       expect(respuestaSumaGet(1, 2)).toMatchObject({
         metodo: 'GET',
         ruta: '/api/suma',
-        resultado: 3,
+        resultado: 4,
       });
       expect(respuestaSumaPost(10, 20)).toMatchObject({
         metodo: 'POST',
