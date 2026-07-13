@@ -51,11 +51,11 @@ malentendidos:
 └──────────────────────────────────────────────────┘
 ```
 
-> **Sobre EKS y ECR.** El enunciado del encargo describe el caso usando Amazon
-> EKS y Amazon ECR. Siguiendo la indicación del docente, aquí se usan **K3s sobre
-> EC2** y **Docker Hub**, que cumplen el mismo rol: K3s implementa la API estándar
-> de Kubernetes, de modo que cada `Deployment`, `Service` y `kubectl patch` de
-> este proyecto funcionaría sin cambios sobre EKS.
+> **Sobre EKS y ECR.** El clúster corre sobre **K3s en EC2** y el registry es
+> **Docker Hub**. Ambos cumplen exactamente el mismo rol que Amazon EKS y Amazon
+> ECR: K3s implementa la API estándar de Kubernetes, de modo que cada
+> `Deployment`, `Service` y `kubectl patch` de este proyecto funcionaría sin
+> cambios sobre EKS.
 
 ### 1.3 Los objetos en el clúster
 
@@ -289,8 +289,9 @@ distintas y van separadas a propósito.
 ### 5.2 Acción — qué hace el sistema
 
 Se dispara con **`if: failure()`**. No está condicionado a un paso concreto, así
-que cubre el fallo de *cualquier* etapa: no hay que enumerar los modos de fallo por
-adelantado — que es justamente lo que se necesita para un error "desconocido".
+que cubre el fallo de *cualquier* etapa. Esto es deliberado: no hay que enumerar
+los modos de fallo por adelantado, de modo que un fallo imprevisto —uno que nadie
+anticipó al escribir el pipeline— también queda cubierto.
 
 El paso de rollback primero **diagnostica**: clasifica la causa raíz en lenguaje
 humano (`ImagePullBackOff`, `CrashLoopBackOff`, `CreateContainerConfigError`, o
